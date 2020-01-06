@@ -1,6 +1,6 @@
 ---
 - name: Modify ISO file
-  hosts: l3010p
+  hosts: all
   gather_facts: no
   tasks:
     - name: Edit Iso file
