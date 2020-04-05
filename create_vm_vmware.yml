@@ -20,7 +20,7 @@
         file: variables.yaml
 
     - name: Get server ip
-      shell: dig +short "{{ vm_name }}.br.scania.com"
+      shell: dig +short "{{ vm_name }}"
       register: dig_output
 
     - name: Get netmask gateway bridge and site
