@@ -1,43 +1,17 @@
 ---
-- name: Modify ISO file
-  hosts: all
-  gather_facts: no
-  tasks:
-    - name: Edit Iso file
-      shell: "uptime"
-
-    - name: Close iso File
-      shell: "uptime"
-
 - name: Create VM vmware
   hosts: localhost
   gather_facts: no
   vars:
     server_size: "{{ lookup('file','../files/jsons/vmware{{ vm_size }}.json')|from_json }}"
   tasks:
-    - name: Include default variables
-      include_vars:
-        file: variables.yaml
-
-    - name: Get server ip
-      shell: dig +short "{{ vm_name }}"
-      register: dig_output
-
-    - name: Get netmask gateway bridge and site
-      shell: "python check_gateway.py {{ dig_output.stdout_lines[0] }}"
-      register: output
-
-    - set_fact:
-        vmdef: "{{ output.stdout }}"
-
-
     - name: Create a virtual machine on given ESXi hostname
       vmware_guest:
         hostname: "{{ vmware_host }}"
-        username: service_ansible_deploy_win
-        password: "{{ vmware_deploy_win_key }}"
-        datacenter: "{{ datacenter | default ('Site017 - Brazil - Sao Paulo')}}"
-        cluster: "{{ cluster | default ('BRSAAPP001') }}"
+        username: VCENTER_USER
+        password: VCENTER_PASSWORD
+        datacenter: "{{ datacenter | default ('DEFAULT_DATACENTER)}}"
+        cluster: "{{ cluster | default ('DEFAULT_CLUSTER') }}"
         validate_certs: no
         folder: /Ansible
         name: "{{ vm_name }}"
